@@ -1,66 +1,14 @@
+
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Anam + Copilot Studio</title>
+  <body style="margin:0;height:100vh">
 
-    <!-- Anam SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@anam-ai/js-sdk/dist/anam.min.js"></script>
 
-    <!-- Copilot Web Chat (Direct Line) -->
-    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
-  </head>
+<!DOCTYPE html><html><body><iframe src="https://copilotstudio.microsoft.com/environments/Default-faaeb84c-b11b-417c-9469-d46ebcb7ff21/bots/cr3a6_ExpertKnowledgeBase/webchat?__version__=2" frameborder="0" style="width: 100%; height: 100%;"></iframe></body></html>
 
-  <body>
-    <div id="webchat" style="height: 300px;"></div>
-    <button id="speakLast">Speak Last Reply</button>
 
-    <script>
-      /* ========= REQUIRED VALUES ========= */
 
-      const ANAM_API_KEY = "NGQzOTAwZmQtYzE3NC00ZmMxLWJlMmQtOGJiMDdlYjVjY2I1Ok16ejZBT21mNlVRNEE3WGhJWksyekp4c3kxaHQvNmdIcUNOZVRNVUJNU2s9";
-      const ANAM_PERSONA_ID = "aba6080a-9e12-4048-b462-82560bde34f8";
-      const COPILOT_CONNECTION_STRING = "https://defaultfaaeb84cb11b417c9469d46ebcb7ff.21.environment.api.powerplatform.com/copilotstudio/dataverse-backed/authenticated/bots/cr3a6_ExpertKnowledgeBase/conversations?api-version=2022-03-01-preview";
 
-      /* ========= INIT ANAM ========= */
-
-      const anamClient = new Anam.Client({
-        apiKey: ANAM_API_KEY,
-        personaId: ANAM_PERSONA_ID
-      });
-
-      /* ========= INIT COPILOT WEB CHAT ========= */
-
-      const directLine = window.WebChat.createDirectLine({
-        secret: COPILOT_CONNECTION_STRING
-      });
-
-      let lastBotMessage = "";
-
-      window.WebChat.renderWebChat(
-        {
-          directLine,
-          store: window.WebChat.createStore({}, ({ dispatch }) => next => action => {
-            if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
-              const activity = action.payload.activity;
-              if (activity.from.role === "bot" && activity.text) {
-                lastBotMessage = activity.text;
-              }
-            }
-            return next(action);
-          })
-        },
-        document.getElementById("webchat")
-      );
-
-      /* ========= SPEAK BOT RESPONSE ========= */
-
-      document.getElementById("speakLast").onclick = () => {
-        if (lastBotMessage) {
-          anamClient.speak(lastBotMessage);
-        }
-      };
-    </script>
   </body>
 </html>
-``
